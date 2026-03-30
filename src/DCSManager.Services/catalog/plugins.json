@@ -107,7 +107,8 @@
         }
       ],
       "versionDetection": {
-        "strategy": "state_file_only"
+        "strategy": "folder_exists",
+        "path": "{SavedGamesStable}\\Mods\\aircraft\\uh60l"
       },
       "homepageUrl": "https://github.com/Kinkkujuustovoileipa/uh-60l"
     },

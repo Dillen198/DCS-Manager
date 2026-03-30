@@ -189,14 +189,29 @@ public class PluginInstallerService : IPluginInstallerService
 
         if (path.Type == "saved_games_relative" && path.PathTemplate != null)
         {
-            var savedGames = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
-                "Saved Games");
+            var savedGames = GetSavedGamesRoot();
             return path.PathTemplate
-                .Replace("{SavedGamesStable}", Path.Combine(savedGames, "DCS"))
+                .Replace("{SavedGamesStable}",   Path.Combine(savedGames, "DCS"))
                 .Replace("{SavedGamesOpenBeta}", Path.Combine(savedGames, "DCS.openbeta"));
         }
 
         return null;
+    }
+
+    private static string GetSavedGamesRoot()
+    {
+        const string shellFoldersKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders";
+        const string savedGamesGuid  = "{4C5C32FF-BB9D-43B0-B5B4-2D72E54EAAA4}";
+        try
+        {
+            using var key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(shellFoldersKey);
+            if (key?.GetValue(savedGamesGuid) is string raw && !string.IsNullOrWhiteSpace(raw))
+            {
+                var expanded = Environment.ExpandEnvironmentVariables(raw);
+                if (Directory.Exists(expanded)) return expanded;
+            }
+        }
+        catch { /* fall through */ }
+        return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Saved Games");
     }
 }

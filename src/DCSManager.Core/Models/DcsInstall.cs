@@ -1,6 +1,6 @@
 namespace DCSManager.Core.Models;
 
-public enum DcsInstallType { Stable, OpenBeta }
+public enum DcsInstallType { Stable, OpenBeta, Testing }
 
 public record DcsInstall
 {
@@ -9,6 +9,12 @@ public record DcsInstall
     public string ExePath { get; init; } = "";
     public string SavedGamesPath { get; init; } = "";
     public string? Version { get; init; }
+    public string? Branch { get; init; }
 
-    public string Label => Type == DcsInstallType.OpenBeta ? "DCS Open Beta" : "DCS World (Stable)";
+    public string Label => Type switch
+    {
+        DcsInstallType.OpenBeta => "DCS World (Open Beta)",
+        DcsInstallType.Testing  => "DCS World (Testing)",
+        _                       => "DCS World (Stable)"
+    };
 }
