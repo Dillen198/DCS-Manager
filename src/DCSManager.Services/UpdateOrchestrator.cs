@@ -91,6 +91,9 @@ public class UpdateOrchestrator : BackgroundService, IUpdateOrchestrator
                 var state = _stateStore.GetState(plugin.Id) ?? new PluginInstallState { PluginId = plugin.Id };
                 state.LastCheckedVersion = result.LatestVersion;
                 state.LastCheckedAt = DateTimeOffset.UtcNow;
+                // Persist detected installed version so UI can display it
+                if (result.CurrentVersion != null)
+                    state.InstalledVersion = result.CurrentVersion;
                 _stateStore.SetState(plugin.Id, state);
             }
 
@@ -118,12 +121,19 @@ public class UpdateOrchestrator : BackgroundService, IUpdateOrchestrator
 
     public async Task ApplyUpdateAsync(string pluginId, IProgress<InstallProgress> progress, CancellationToken ct = default)
     {
-        var update = _pendingUpdates.FirstOrDefault(u => u.PluginId == pluginId);
-        if (update == null) return;
-
         var plugins = await _catalog.GetCatalogAsync(ct);
         var plugin = plugins.FirstOrDefault(p => p.Id == pluginId);
         if (plugin == null) return;
+
+        // If not already in pending list (e.g. fresh install), do a live check to get asset URL
+        var update = _pendingUpdates.FirstOrDefault(u => u.PluginId == pluginId)
+                     ?? await CheckPluginAsync(plugin, ct);
+
+        if (update.AssetDownloadUrl == null && plugin.InstallStrategy.Type != "open_browser_url")
+        {
+            _logger.LogWarning("No download URL found for {Plugin}", pluginId);
+            return;
+        }
 
         IsInstalling = true;
         StateChanged?.Invoke(this, EventArgs.Empty);

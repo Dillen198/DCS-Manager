@@ -426,6 +426,13 @@
                           HorizontalGridLinesBrush="#22FFFFFF" RowBackground="{StaticResource CardBg}"
                           AlternatingRowBackground="#0FFFFFFF" IsReadOnly="True"
                           ColumnHeaderHeight="36">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Foreground" Value="Black"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Padding" Value="8,0"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Time" Binding="{Binding Timestamp, StringFormat='{}{0:yyyy-MM-dd HH:mm}'}" Width="140"/>
                         <DataGridTextColumn Header="Plugin" Binding="{Binding PluginId}" Width="160"/>
