@@ -40,7 +40,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "startupicon"; Description: "Start DCS Manager automatically with Windows (system tray)"; GroupDescription: "Startup:"; Flags: checked
+Name: "startupicon"; Description: "Start DCS Manager automatically with Windows (system tray)"; GroupDescription: "Startup:"
 
 [Files]
 Source: "{#PublishDir}\{#AppExeName}"; DestDir: "{app}"; Flags: ignoreversion
