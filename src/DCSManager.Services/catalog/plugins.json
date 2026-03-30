@@ -1,0 +1,233 @@
+{
+  "schemaVersion": "1.0",
+  "plugins": [
+    {
+      "id": "srs",
+      "displayName": "SimpleRadioStandalone (SRS)",
+      "description": "In-cockpit radio simulation for DCS multiplayer. Provides realistic radio communication including frequency management, guard channels, and line-of-sight limitations.",
+      "category": "Communication",
+      "tags": ["multiplayer", "radio", "voice"],
+      "enabled": true,
+      "source": {
+        "type": "github_release",
+        "owner": "ciribob",
+        "repo": "DCS-SimpleRadioStandalone"
+      },
+      "assetSelector": {
+        "strategy": "name_regex",
+        "pattern": "^SRS-AutoUpdater\\.exe$"
+      },
+      "installStrategy": {
+        "type": "run_installer_exe",
+        "silentArgs": "/S",
+        "requiresAdmin": true
+      },
+      "installPaths": [
+        {
+          "id": "program_files",
+          "label": "Program Files",
+          "path": "C:\\Program Files\\DCS-SimpleRadio-Standalone",
+          "type": "fixed"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "exe_file_version",
+        "path": "C:\\Program Files\\DCS-SimpleRadio-Standalone\\SR-ClientRadio.exe"
+      },
+      "homepageUrl": "https://github.com/ciribob/DCS-SimpleRadioStandalone",
+      "licenseType": "MIT"
+    },
+    {
+      "id": "dtc",
+      "displayName": "DCS Data Transfer Cartridge (DTC)",
+      "description": "Pre-flight mission data loading tool. Load waypoints, threat data, and radio presets into compatible aircraft before a mission.",
+      "category": "Mission Planning",
+      "tags": ["mission", "planning", "data"],
+      "enabled": true,
+      "source": {
+        "type": "github_release",
+        "owner": "the-paid-actor",
+        "repo": "dcs-dtc"
+      },
+      "assetSelector": {
+        "strategy": "name_regex",
+        "pattern": "^.*[Ss]etup.*\\.msi$"
+      },
+      "installStrategy": {
+        "type": "run_installer_msi",
+        "requiresAdmin": true
+      },
+      "installPaths": [
+        {
+          "id": "program_files_x86",
+          "label": "Program Files (x86)",
+          "path": "C:\\Program Files (x86)\\DCS-DTC",
+          "type": "fixed"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "exe_file_version",
+        "path": "C:\\Program Files (x86)\\DCS-DTC\\DTC.exe"
+      },
+      "homepageUrl": "https://github.com/the-paid-actor/dcs-dtc"
+    },
+    {
+      "id": "uh60l",
+      "displayName": "UH-60L Black Hawk (Community Mod)",
+      "description": "Community-developed UH-60L Black Hawk helicopter mod. Highly detailed cockpit with full systems simulation.",
+      "category": "Aircraft Mod",
+      "tags": ["helicopter", "transport", "community"],
+      "enabled": true,
+      "deprecationNotice": "GitHub releases were discontinued after v1.4. v2.0 and above require a manual Patreon download.",
+      "source": {
+        "type": "github_release",
+        "owner": "Kinkkujuustovoileipa",
+        "repo": "uh-60l"
+      },
+      "assetSelector": {
+        "strategy": "name_regex",
+        "pattern": "^uh-60l-.*\\.zip$"
+      },
+      "installStrategy": {
+        "type": "extract_zip_to_folder",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "saved_games_stable",
+          "label": "DCS Stable",
+          "pathTemplate": "{SavedGamesStable}\\Mods\\aircraft\\uh60l",
+          "type": "saved_games_relative"
+        },
+        {
+          "id": "saved_games_openbeta",
+          "label": "DCS Open Beta",
+          "pathTemplate": "{SavedGamesOpenBeta}\\Mods\\aircraft\\uh60l",
+          "type": "saved_games_relative"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "state_file_only"
+      },
+      "homepageUrl": "https://github.com/Kinkkujuustovoileipa/uh-60l"
+    },
+    {
+      "id": "kc30",
+      "displayName": "KC-30 MRTT (Community Mod)",
+      "description": "Community KC-30 Multi Role Tanker Transport mod. Provides aerial refuelling for compatible aircraft.",
+      "category": "Aircraft Mod",
+      "tags": ["tanker", "transport", "community"],
+      "enabled": true,
+      "manualDownloadUrl": "https://forums.eagle.ru/topic/290789",
+      "manualInstallNote": "The KC-30 mod is distributed via the DCS forums. Click 'Open Download Page' to visit the forum thread.",
+      "source": {
+        "type": "manual_url"
+      },
+      "assetSelector": {},
+      "installStrategy": {
+        "type": "open_browser_url",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "saved_games_stable",
+          "label": "DCS Stable",
+          "pathTemplate": "{SavedGamesStable}\\Mods\\aircraft\\KC-30",
+          "type": "saved_games_relative"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "state_file_only"
+      }
+    },
+    {
+      "id": "mig17f",
+      "displayName": "MiG-17F (Community Mod)",
+      "description": "Community MiG-17F Fresco mod. Korean War era swept-wing fighter with authentic handling characteristics.",
+      "category": "Aircraft Mod",
+      "tags": ["fighter", "cold-war", "community"],
+      "enabled": true,
+      "manualDownloadUrl": "https://forums.eagle.ru/topic/134442",
+      "manualInstallNote": "The MiG-17F mod is distributed via the DCS forums. Click 'Open Download Page' to visit the forum thread.",
+      "source": {
+        "type": "manual_url"
+      },
+      "assetSelector": {},
+      "installStrategy": {
+        "type": "open_browser_url",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "saved_games_stable",
+          "label": "DCS Stable",
+          "pathTemplate": "{SavedGamesStable}\\Mods\\aircraft\\MiG-17F",
+          "type": "saved_games_relative"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "state_file_only"
+      }
+    },
+    {
+      "id": "samsites",
+      "displayName": "SAM Sites Asset Pack",
+      "description": "Expanded SAM site assets for mission building. Adds additional surface-to-air missile systems and radar units.",
+      "category": "Assets",
+      "tags": ["missions", "ai", "sam"],
+      "enabled": true,
+      "manualDownloadUrl": "https://forums.eagle.ru",
+      "manualInstallNote": "Search the DCS forums for the SAM Sites Asset Pack download link.",
+      "source": {
+        "type": "manual_url"
+      },
+      "assetSelector": {},
+      "installStrategy": {
+        "type": "open_browser_url",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "saved_games_stable",
+          "label": "DCS Stable",
+          "pathTemplate": "{SavedGamesStable}\\Mods\\tech\\SAMSitesAssetPack",
+          "type": "saved_games_relative"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "state_file_only"
+      }
+    },
+    {
+      "id": "tacview",
+      "displayName": "Tacview",
+      "description": "Flight data recorder and 3D debriefing tool. Record and replay missions to analyse tactics, review engagements, and improve performance.",
+      "category": "Analysis",
+      "tags": ["debrief", "recording", "analysis"],
+      "enabled": true,
+      "manualDownloadUrl": "https://www.tacview.net/download/latest/",
+      "manualInstallNote": "Tacview has its own installer and update mechanism. Click 'Open Download Page' to get the latest version.",
+      "source": {
+        "type": "manual_url"
+      },
+      "assetSelector": {},
+      "installStrategy": {
+        "type": "open_browser_url",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "saved_games_stable",
+          "label": "DCS Stable",
+          "pathTemplate": "{SavedGamesStable}\\Mods\\tech\\Tacview",
+          "type": "saved_games_relative"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "exe_file_version",
+        "path": "C:\\Program Files\\Tacview\\Tacview64.exe"
+      },
+      "homepageUrl": "https://www.tacview.net"
+    }
+  ]
+}

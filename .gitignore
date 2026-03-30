@@ -1,0 +1,17 @@
+# Build output
+bin/
+obj/
+publish/
+installer/dist/
+
+# User-specific files
+*.user
+*.suo
+.vs/
+.vscode/
+
+# Logs
+*.log
+
+# Claude Code local settings
+.claude/settings.local.json

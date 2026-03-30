@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/DCSManager.App/DCSManager.App.csproj" />
+    <Project Path="src/DCSManager.Core/DCSManager.Core.csproj" />
+    <Project Path="src/DCSManager.Services/DCSManager.Services.csproj" />
+    <Project Path="src/DCSManager.UI/DCSManager.UI.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DCSManager.Core.Tests/DCSManager.Core.Tests.csproj" />
+    <Project Path="tests/DCSManager.Services.Tests/DCSManager.Services.Tests.csproj" />
+  </Folder>
+</Solution>
