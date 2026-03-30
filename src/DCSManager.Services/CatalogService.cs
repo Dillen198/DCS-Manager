@@ -14,7 +14,7 @@ namespace DCSManager.Services;
 
 public class CatalogService : ICatalogService
 {
-    private const string CatalogUrl = "https://raw.githubusercontent.com/dillen198/dcs-plugin-manager/main/catalog/plugins.json";
+    private const string CatalogUrl = "https://raw.githubusercontent.com/Dillen198/DCS-Manager/main/catalog/plugins.json";
 
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<CatalogService> _logger;

@@ -62,12 +62,21 @@ public class DcsInstallDetector : IDcsInstallDetector
             }
         }
 
-        // Fallback: common paths
+        // Fallback: common paths across all drive letters
         if (installPath == null)
         {
-            var fallbacks = type == DcsInstallType.OpenBeta
-                ? new[] { @"F:\DCS World OpenBeta", @"C:\Program Files\Eagle Dynamics\DCS World OpenBeta" }
-                : new[] { @"F:\DCS World", @"C:\Program Files\Eagle Dynamics\DCS World" };
+            var folderNames = type == DcsInstallType.OpenBeta
+                ? new[] { "DCS World OpenBeta", "DCS World openbeta" }
+                : new[] { "DCS World", "DCS" };
+
+            var drives = new[] { "C", "D", "E", "F", "G" };
+            var fallbacks = new List<string>();
+            foreach (var drive in drives)
+                foreach (var name in folderNames)
+                {
+                    fallbacks.Add($@"{drive}:\{name}");
+                    fallbacks.Add($@"{drive}:\Program Files\Eagle Dynamics\{name}");
+                }
 
             foreach (var fb in fallbacks)
                 if (Directory.Exists(fb)) { installPath = fb; break; }
