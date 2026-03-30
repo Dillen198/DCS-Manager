@@ -1,5 +1,5 @@
 using System;
-using System.Reflection;
+using System.IO;
 using Microsoft.Win32;
 
 namespace DCSManager.UI;
@@ -17,12 +17,8 @@ public static class StartupManager
 
     public static void Enable()
     {
-        var exePath = Assembly.GetEntryAssembly()?.Location
-            ?? Environment.ProcessPath ?? "";
-
-        // Handle single-file publish (dll path → exe path)
-        if (exePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
-            exePath = exePath[..^4] + ".exe";
+        var exePath = Environment.ProcessPath
+            ?? Path.Combine(AppContext.BaseDirectory, "DCSManager.exe");
 
         using var key = Registry.CurrentUser.OpenSubKey(RunKey, writable: true);
         key?.SetValue(ValueName, $"\"{exePath}\" --minimized");
