@@ -26,7 +26,6 @@ AllowNoIcons=no
 LicenseFile=
 OutputDir=dist
 OutputBaseFilename=DCSManager-Setup-{#AppVersion}
-SetupIconFile={#PublishDir}\Assets\tray.ico
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern
