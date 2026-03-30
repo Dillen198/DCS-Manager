@@ -21,9 +21,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/) 
   - SimpleRadioStandalone (SRS) — auto-update via GitHub releases
   - DCS Data Transfer Cartridge (DTC) — auto-update via GitHub releases
   - UH-60L Black Hawk community mod — auto-update via GitHub releases (v1.4 and below)
-  - KC-30 MRTT — manual download link
-  - MiG-17F — manual download link
-  - SAM Sites Asset Pack — manual download link
   - Tacview — manual download link
 - **Windows toast notifications** — notified when an update is found or applied
 - **Settings tab** — configure update interval, DCS install paths, startup toggle, and open log/data folders

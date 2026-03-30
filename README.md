@@ -25,9 +25,6 @@ A Windows application for DCS World players to browse, install, and automaticall
 | SimpleRadioStandalone (SRS) | [GitHub](https://github.com/ciribob/DCS-SimpleRadioStandalone) | ✅ |
 | DCS Data Transfer Cartridge (DTC) | [GitHub](https://github.com/the-paid-actor/dcs-dtc) | ✅ |
 | UH-60L Black Hawk (Community Mod) | [GitHub](https://github.com/Kinkkujuustovoileipa/uh-60l) | ✅ (v1.4 and below) |
-| KC-30 MRTT | DCS Forums | 🔗 Link |
-| MiG-17F | DCS Forums | 🔗 Link |
-| SAM Sites Asset Pack | DCS Forums | 🔗 Link |
 | Tacview | tacview.net | 🔗 Link |
 
 > Want a plugin added? [Open an issue](https://github.com/dillen198/DCS-Manager/issues) or submit a pull request to `catalog/plugins.json`.
