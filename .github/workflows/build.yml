@@ -46,11 +46,16 @@ jobs:
       run: Copy-Item catalog/plugins.json publish/
       if: startsWith(github.ref, 'refs/tags/')
 
+    - name: Get version without v prefix
+      id: version
+      run: echo "num=$('${{ github.ref_name }}' -replace '^v','')" >> $env:GITHUB_OUTPUT
+      if: startsWith(github.ref, 'refs/tags/')
+
     - name: Build Inno Setup installer
       uses: Minionguyjpro/Inno-Setup-Action@v1.2.2
       with:
         path: installer/setup.iss
-        options: /DAppVersion=${{ github.ref_name }}
+        options: /DAppVersion=${{ steps.version.outputs.num }}
       if: startsWith(github.ref, 'refs/tags/')
 
     - name: Upload Release

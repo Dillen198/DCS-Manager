@@ -7,9 +7,11 @@
 ;   iscc installer\setup.iss
 
 #define AppName "DCS Manager"
-#define AppVersion "1.0.0"
+#ifndef AppVersion
+  #define AppVersion "1.0.0"
+#endif
 #define AppPublisher "DCS Manager"
-#define AppURL "https://github.com/dillen198/dcs-plugin-manager"
+#define AppURL "https://github.com/Dillen198/DCS-Manager"
 #define AppExeName "DCSManager.exe"
 #define PublishDir "..\publish"
 
