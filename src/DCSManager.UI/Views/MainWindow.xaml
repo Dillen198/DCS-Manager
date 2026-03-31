@@ -220,7 +220,6 @@
             <Setter Property="FontWeight"  Value="Bold"/>
             <Setter Property="Foreground"  Value="{StaticResource Overlay0}"/>
             <Setter Property="Margin"      Value="0,0,0,10"/>
-            <Setter Property="LetterSpacing" Value="1.5"/>
         </Style>
 
         <!-- ═══ Card ═══ -->
@@ -264,7 +263,7 @@
                                        VerticalAlignment="Center" Margin="0,0,8,0"/>
                             <TextBlock Text="DCS MANAGER" FontSize="14" FontWeight="Bold"
                                        Foreground="{StaticResource TextPrimary}" VerticalAlignment="Center"
-                                       LetterSpacing="1"/>
+                                       />
                         </StackPanel>
                         <TextBlock Text="Plugin Updater" FontSize="11"
                                    Foreground="{StaticResource Overlay0}" Margin="28,0,0,0"/>
