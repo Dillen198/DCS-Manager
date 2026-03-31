@@ -40,3 +40,17 @@ public class BoolToSuccessConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         => throw new NotImplementedException();
 }
+
+/// <summary>
+/// MultiBinding converter that returns true when all bound values are equal.
+/// Used for "is this item the selected one?" comparisons in DataTriggers,
+/// since DataTrigger.Value does not support bindings.
+/// </summary>
+public class EqualityConverter : IMultiValueConverter
+{
+    public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        => values.Length == 2 && Equals(values[0], values[1]);
+
+    public object[] ConvertBack(object value, Type targetType, object[] targetTypes, CultureInfo culture)
+        => throw new NotImplementedException();
+}

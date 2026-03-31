@@ -32,6 +32,7 @@
         <conv:BoolInvertConverter           x:Key="BoolInvert"/>
         <conv:CountToVisibilityConverter    x:Key="CountToVis"/>
         <conv:BoolToSuccessConverter        x:Key="BoolToSuccess"/>
+        <conv:EqualityConverter             x:Key="EqualityConv"/>
 
         <!-- ═══ Scrollbar ═══ -->
         <Style TargetType="ScrollBar">
@@ -882,15 +883,20 @@
                                                 Cursor="Hand">
                                             <Border.Style>
                                                 <Style TargetType="Border">
-                                                    <Setter Property="Background" Value="{StaticResource Mantle}"/>
+                                                    <Setter Property="Background"     Value="{StaticResource Mantle}"/>
                                                     <Setter Property="BorderThickness" Value="2"/>
-                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                    <Setter Property="BorderBrush"    Value="Transparent"/>
                                                     <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding DataContext.SelectedDcsInstall.SavedGamesPath,
-                                                            RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
-                                                                     Value="{Binding SavedGamesPath}">
+                                                        <DataTrigger Value="True">
+                                                            <DataTrigger.Binding>
+                                                                <MultiBinding Converter="{StaticResource EqualityConv}">
+                                                                    <Binding Path="SavedGamesPath"/>
+                                                                    <Binding Path="DataContext.SelectedDcsInstall.SavedGamesPath"
+                                                                             RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
+                                                                </MultiBinding>
+                                                            </DataTrigger.Binding>
                                                             <Setter Property="BorderBrush" Value="{StaticResource Blue}"/>
-                                                            <Setter Property="Background" Value="#1589B4FA"/>
+                                                            <Setter Property="Background"  Value="#1589B4FA"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -898,7 +904,7 @@
                                             <Border.InputBindings>
                                                 <MouseBinding MouseAction="LeftClick"
                                                     Command="{Binding DataContext.SelectDcsInstallCommand,
-                                                        RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
+                                                        RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                                                     CommandParameter="{Binding}"/>
                                             </Border.InputBindings>
                                             <Grid>
@@ -916,38 +922,49 @@
                                                         <Run Text="{Binding SavedGamesPath}" Foreground="{StaticResource Subtext}"/>
                                                     </TextBlock>
                                                 </StackPanel>
-                                                <!-- Selected checkmark -->
-                                                <Ellipse Grid.Column="1" Width="18" Height="18"
-                                                         VerticalAlignment="Center">
-                                                    <Ellipse.Style>
-                                                        <Style TargetType="Ellipse">
-                                                            <Setter Property="Fill" Value="{StaticResource Surface1}"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding DataContext.SelectedDcsInstall.SavedGamesPath,
-                                                                    RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
-                                                                             Value="{Binding SavedGamesPath}">
-                                                                    <Setter Property="Fill" Value="{StaticResource Blue}"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Ellipse.Style>
-                                                </Ellipse>
-                                                <TextBlock Grid.Column="1" Text="✓" FontSize="11" FontWeight="Bold"
-                                                           Foreground="{StaticResource Crust}"
-                                                           HorizontalAlignment="Center" VerticalAlignment="Center">
-                                                    <TextBlock.Style>
-                                                        <Style TargetType="TextBlock">
-                                                            <Setter Property="Visibility" Value="Collapsed"/>
-                                                            <Style.Triggers>
-                                                                <DataTrigger Binding="{Binding DataContext.SelectedDcsInstall.SavedGamesPath,
-                                                                    RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
-                                                                             Value="{Binding SavedGamesPath}">
-                                                                    <Setter Property="Visibility" Value="Visible"/>
-                                                                </DataTrigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </TextBlock.Style>
-                                                </TextBlock>
+                                                <!-- Selected indicator -->
+                                                <Grid Grid.Column="1" Width="20" Height="20" VerticalAlignment="Center">
+                                                    <Ellipse>
+                                                        <Ellipse.Style>
+                                                            <Style TargetType="Ellipse">
+                                                                <Setter Property="Fill" Value="{StaticResource Surface1}"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Value="True">
+                                                                        <DataTrigger.Binding>
+                                                                            <MultiBinding Converter="{StaticResource EqualityConv}">
+                                                                                <Binding Path="SavedGamesPath"/>
+                                                                                <Binding Path="DataContext.SelectedDcsInstall.SavedGamesPath"
+                                                                                         RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
+                                                                            </MultiBinding>
+                                                                        </DataTrigger.Binding>
+                                                                        <Setter Property="Fill" Value="{StaticResource Blue}"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Ellipse.Style>
+                                                    </Ellipse>
+                                                    <TextBlock Text="✓" FontSize="11" FontWeight="Bold"
+                                                               Foreground="{StaticResource Crust}"
+                                                               HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Value="True">
+                                                                        <DataTrigger.Binding>
+                                                                            <MultiBinding Converter="{StaticResource EqualityConv}">
+                                                                                <Binding Path="SavedGamesPath"/>
+                                                                                <Binding Path="DataContext.SelectedDcsInstall.SavedGamesPath"
+                                                                                         RelativeSource="{RelativeSource AncestorType=ItemsControl}"/>
+                                                                            </MultiBinding>
+                                                                        </DataTrigger.Binding>
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                    </TextBlock>
+                                                </Grid>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>
