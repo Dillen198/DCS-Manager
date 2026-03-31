@@ -50,6 +50,14 @@ public class JsonPluginStateStore : IPluginStateStore
             _state.History.RemoveRange(500, _state.History.Count - 500);
     }
 
+    public AppSettings GetAppSettings() => _state.Settings;
+
+    public void SaveAppSettings(AppSettings settings)
+    {
+        _state.Settings = settings;
+        Save();
+    }
+
     public void Save()
     {
         _writeLock.Wait();
@@ -92,5 +100,6 @@ public class JsonPluginStateStore : IPluginStateStore
     {
         public Dictionary<string, PluginInstallState> Plugins { get; set; } = new();
         public List<UpdateHistoryEntry> History { get; set; } = new();
+        public AppSettings Settings { get; set; } = new();
     }
 }

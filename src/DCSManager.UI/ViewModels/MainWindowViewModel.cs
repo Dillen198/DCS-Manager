@@ -57,7 +57,10 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private bool _startWithWindows;
 
-    public ObservableCollection<string> Categories { get; } = new() { "All", "Communication", "Mission Planning", "Aircraft Mod", "Analysis", "Assets" };
+    [ObservableProperty]
+    private DcsInstall? _selectedDcsInstall;
+
+    public ObservableCollection<string> Categories { get; } = new() { "All", "Communication", "Mission Planning", "Aircraft Mod", "Analysis", "Assets", "Hardware" };
 
     public ObservableCollection<PluginViewModel> FilteredPlugins => new(
         Plugins.Where(p =>
@@ -148,6 +151,23 @@ public partial class MainWindowViewModel : ObservableObject
     private void LoadSettings()
     {
         StartWithWindows = StartupManager.IsEnabled();
+        var appSettings = _stateStore.GetAppSettings();
+        UpdateIntervalMinutes = appSettings.CheckIntervalMinutes;
+
+        // Pre-select the stored primary install, or default to first detected
+        var storedPath = appSettings.PrimarySavedGamesPath;
+        SelectedDcsInstall = DcsInstalls.FirstOrDefault(i =>
+            string.Equals(i.SavedGamesPath, storedPath, StringComparison.OrdinalIgnoreCase))
+            ?? DcsInstalls.FirstOrDefault();
+    }
+
+    [RelayCommand]
+    private void SelectDcsInstall(DcsInstall? install)
+    {
+        SelectedDcsInstall = install;
+        var settings = _stateStore.GetAppSettings();
+        settings.PrimarySavedGamesPath = install?.SavedGamesPath;
+        _stateStore.SaveAppSettings(settings);
     }
 
     [RelayCommand]

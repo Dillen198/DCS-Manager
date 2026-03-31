@@ -10,4 +10,7 @@ public interface IPluginStateStore
     IReadOnlyList<UpdateHistoryEntry> GetHistory(string? pluginId = null);
     void AddHistoryEntry(UpdateHistoryEntry entry);
     void Save();
+
+    AppSettings GetAppSettings();
+    void SaveAppSettings(AppSettings settings);
 }

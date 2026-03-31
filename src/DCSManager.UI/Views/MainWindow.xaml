@@ -788,6 +788,96 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
 
+                    <!-- Primary DCS Install selector -->
+                    <Border Style="{StaticResource Card}" Margin="0,0,0,24">
+                        <StackPanel>
+                            <TextBlock Text="Primary Installation" FontSize="13" FontWeight="SemiBold"
+                                       Foreground="{StaticResource TextPrimary}" Margin="0,0,0,4"/>
+                            <TextBlock FontSize="12" Foreground="{StaticResource Subtext}" Margin="0,0,0,12"
+                                       TextWrapping="Wrap">
+                                Mods that install to Saved Games will use the selected installation's folder.
+                            </TextBlock>
+                            <ItemsControl ItemsSource="{Binding DcsInstalls}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0,0,0,6" CornerRadius="7" Padding="14,10"
+                                                Cursor="Hand">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="{StaticResource Mantle}"/>
+                                                    <Setter Property="BorderThickness" Value="2"/>
+                                                    <Setter Property="BorderBrush" Value="Transparent"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding DataContext.SelectedDcsInstall.SavedGamesPath,
+                                                            RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
+                                                                     Value="{Binding SavedGamesPath}">
+                                                            <Setter Property="BorderBrush" Value="{StaticResource Blue}"/>
+                                                            <Setter Property="Background" Value="#1589B4FA"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <Border.InputBindings>
+                                                <MouseBinding MouseAction="LeftClick"
+                                                    Command="{Binding DataContext.SelectDcsInstallCommand,
+                                                        RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
+                                                    CommandParameter="{Binding}"/>
+                                            </Border.InputBindings>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel Grid.Column="0">
+                                                    <TextBlock Text="{Binding Label}" FontSize="13" FontWeight="SemiBold"
+                                                               Foreground="{StaticResource TextPrimary}"/>
+                                                    <TextBlock Text="{Binding InstallPath}" FontSize="11"
+                                                               Foreground="{StaticResource Subtext}" Margin="0,2,0,0"/>
+                                                    <TextBlock FontSize="11" Foreground="{StaticResource Overlay0}" Margin="0,2,0,0">
+                                                        <Run Text="Saved Games: "/>
+                                                        <Run Text="{Binding SavedGamesPath}" Foreground="{StaticResource Subtext}"/>
+                                                    </TextBlock>
+                                                </StackPanel>
+                                                <!-- Selected checkmark -->
+                                                <Ellipse Grid.Column="1" Width="18" Height="18"
+                                                         VerticalAlignment="Center">
+                                                    <Ellipse.Style>
+                                                        <Style TargetType="Ellipse">
+                                                            <Setter Property="Fill" Value="{StaticResource Surface1}"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding DataContext.SelectedDcsInstall.SavedGamesPath,
+                                                                    RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
+                                                                             Value="{Binding SavedGamesPath}">
+                                                                    <Setter Property="Fill" Value="{StaticResource Blue}"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Ellipse.Style>
+                                                </Ellipse>
+                                                <TextBlock Grid.Column="1" Text="✓" FontSize="11" FontWeight="Bold"
+                                                           Foreground="{StaticResource Crust}"
+                                                           HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding DataContext.SelectedDcsInstall.SavedGamesPath,
+                                                                    RelativeSource={RelativeSource AncestorType=ScrollViewer}}"
+                                                                             Value="{Binding SavedGamesPath}">
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
                     <!-- Update Settings -->
                     <TextBlock Text="UPDATE SETTINGS" Style="{StaticResource SectionHeader}"/>
                     <Border Style="{StaticResource Card}" Margin="0,0,0,24">

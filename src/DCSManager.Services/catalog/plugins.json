@@ -72,6 +72,205 @@
       "homepageUrl": "https://github.com/the-paid-actor/dcs-dtc"
     },
     {
+      "id": "liberation",
+      "displayName": "DCS Liberation",
+      "description": "Persistent single-player & co-op dynamic campaign generator. Fight a full war from airbase capture to supply chain management with AI-driven enemy forces.",
+      "category": "Mission Planning",
+      "tags": ["campaign", "dynamic", "mission", "planning"],
+      "enabled": true,
+      "source": {
+        "type": "github_release",
+        "owner": "dcs-liberation",
+        "repo": "dcs_liberation"
+      },
+      "assetSelector": {
+        "strategy": "name_regex",
+        "pattern": "^DCS\\.Liberation.*\\.exe$"
+      },
+      "installStrategy": {
+        "type": "run_installer_exe",
+        "silentArgs": "/S",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "program_files",
+          "label": "Program Files",
+          "path": "C:\\Program Files\\DCS Liberation",
+          "type": "fixed"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "exe_file_version",
+        "path": "C:\\Program Files\\DCS Liberation\\DCS Liberation.exe"
+      },
+      "homepageUrl": "https://github.com/dcs-liberation/dcs_liberation"
+    },
+    {
+      "id": "dcsbios",
+      "displayName": "DCS-BIOS",
+      "description": "Export cockpit data and control switches via serial/USB for physical cockpit builders. Powers hardware panels, Arduino-based controls, and stream decks.",
+      "category": "Hardware",
+      "tags": ["hardware", "cockpit", "arduino", "export"],
+      "enabled": true,
+      "source": {
+        "type": "github_release",
+        "owner": "DCS-Skunkworks",
+        "repo": "dcs-bios"
+      },
+      "assetSelector": {
+        "strategy": "name_regex",
+        "pattern": "^DCS-BIOS.*\\.zip$"
+      },
+      "installStrategy": {
+        "type": "extract_zip_to_folder",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "saved_games_scripts",
+          "label": "Saved Games Scripts",
+          "pathTemplate": "{SavedGamesStable}\\Scripts\\DCS-BIOS",
+          "type": "saved_games_relative"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "folder_exists",
+        "path": "{SavedGamesStable}\\Scripts\\DCS-BIOS"
+      },
+      "homepageUrl": "https://github.com/DCS-Skunkworks/dcs-bios"
+    },
+    {
+      "id": "a4ec",
+      "displayName": "Community A-4E-C Skyhawk",
+      "description": "Free, high-fidelity A-4E-C Skyhawk community aircraft mod. Full systems simulation including hydraulics, electrics, and weapons systems.",
+      "category": "Aircraft Mod",
+      "tags": ["aircraft", "community", "free", "skyhawk"],
+      "enabled": true,
+      "source": {
+        "type": "github_release",
+        "owner": "heclak",
+        "repo": "community-a4e-c"
+      },
+      "assetSelector": {
+        "strategy": "name_regex",
+        "pattern": "^community-a4e-c.*\\.zip$"
+      },
+      "installStrategy": {
+        "type": "extract_zip_to_folder",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "saved_games_aircraft",
+          "label": "Saved Games Aircraft Mods",
+          "pathTemplate": "{SavedGamesStable}\\Mods\\aircraft",
+          "type": "saved_games_relative"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "folder_exists",
+        "path": "{SavedGamesStable}\\Mods\\aircraft\\A-4E-C"
+      },
+      "homepageUrl": "https://github.com/heclak/community-a4e-c"
+    },
+    {
+      "id": "helios",
+      "displayName": "Helios Virtual Cockpit",
+      "description": "Create virtual cockpit displays on secondary screens or tablets. Supports many DCS aircraft with touch-enabled gauge panels and MFD exports.",
+      "category": "Hardware",
+      "tags": ["cockpit", "display", "export", "touchscreen"],
+      "enabled": true,
+      "source": {
+        "type": "github_release",
+        "owner": "HeliosVirtualCockpit",
+        "repo": "Helios"
+      },
+      "assetSelector": {
+        "strategy": "name_regex",
+        "pattern": "^Helios.*Setup.*\\.exe$"
+      },
+      "installStrategy": {
+        "type": "run_installer_exe",
+        "silentArgs": "/S",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "program_files",
+          "label": "Program Files",
+          "path": "C:\\Program Files\\Helios",
+          "type": "fixed"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "exe_file_version",
+        "path": "C:\\Program Files\\Helios\\Helios.exe"
+      },
+      "homepageUrl": "https://github.com/HeliosVirtualCockpit/Helios"
+    },
+    {
+      "id": "scratchpad",
+      "displayName": "DCS Scratchpad",
+      "description": "In-game overlay notepad for DCS. Take notes, store frequencies, waypoint coordinates and tasking without alt-tabbing out of the game.",
+      "category": "Mission Planning",
+      "tags": ["overlay", "notes", "in-game", "utility"],
+      "enabled": true,
+      "source": {
+        "type": "github_release",
+        "owner": "rkusa",
+        "repo": "dcs-scratchpad"
+      },
+      "assetSelector": {
+        "strategy": "name_regex",
+        "pattern": "^dcs-scratchpad.*\\.zip$"
+      },
+      "installStrategy": {
+        "type": "extract_zip_to_folder",
+        "requiresAdmin": false
+      },
+      "installPaths": [
+        {
+          "id": "saved_games_scripts",
+          "label": "Saved Games Scripts",
+          "pathTemplate": "{SavedGamesStable}\\Scripts",
+          "type": "saved_games_relative"
+        }
+      ],
+      "versionDetection": {
+        "strategy": "folder_exists",
+        "path": "{SavedGamesStable}\\Scripts\\DCScratchpad"
+      },
+      "homepageUrl": "https://github.com/rkusa/dcs-scratchpad"
+    },
+    {
+      "id": "dcs-olympus",
+      "displayName": "DCS Olympus",
+      "description": "Real-time tactical map and mission control overlay for DCS. View and command all units on a live map from a browser — ideal for GCI and JTAC controllers.",
+      "category": "Mission Planning",
+      "tags": ["gci", "map", "control", "multiplayer"],
+      "enabled": true,
+      "source": {
+        "type": "github_release",
+        "owner": "Pax1601",
+        "repo": "DCSOlympus"
+      },
+      "assetSelector": {
+        "strategy": "name_regex",
+        "pattern": "^DCS.Olympus.*\\.exe$"
+      },
+      "installStrategy": {
+        "type": "run_installer_exe",
+        "silentArgs": "/S",
+        "requiresAdmin": false
+      },
+      "installPaths": [],
+      "versionDetection": {
+        "strategy": "state_file_only"
+      },
+      "homepageUrl": "https://github.com/Pax1601/DCSOlympus"
+    },
+    {
       "id": "uh60l",
       "displayName": "UH-60L Black Hawk (Community Mod)",
       "description": "Community-developed UH-60L Black Hawk helicopter mod. Highly detailed cockpit with full systems simulation.",

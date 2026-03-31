@@ -17,12 +17,14 @@ public class PluginInstallerService : IPluginInstallerService
     private static readonly string TempBase = Path.Combine(Path.GetTempPath(), "DCSManager");
 
     private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IPluginStateStore _stateStore;
     private readonly ILogger<PluginInstallerService> _logger;
     private readonly ConcurrentDictionary<string, SemaphoreSlim> _pluginLocks = new();
 
-    public PluginInstallerService(IHttpClientFactory httpClientFactory, ILogger<PluginInstallerService> logger)
+    public PluginInstallerService(IHttpClientFactory httpClientFactory, IPluginStateStore stateStore, ILogger<PluginInstallerService> logger)
     {
         _httpClientFactory = httpClientFactory;
+        _stateStore = stateStore;
         _logger = logger;
     }
 
@@ -182,17 +184,28 @@ public class PluginInstallerService : IPluginInstallerService
         return new InstallResult(true, null, null);
     }
 
-    private static string? ResolveInstallPath(InstallPath path)
+    private string? ResolveInstallPath(InstallPath path)
     {
         if (path.Type == "fixed")
             return path.Path;
 
         if (path.Type == "saved_games_relative" && path.PathTemplate != null)
         {
-            var savedGames = GetSavedGamesRoot();
+            // Use the user-chosen primary SavedGames path if set, otherwise fall back to system default
+            var primarySavedGames = _stateStore.GetAppSettings().PrimarySavedGamesPath;
+            var savedGamesRoot = !string.IsNullOrWhiteSpace(primarySavedGames)
+                ? primarySavedGames
+                : GetSavedGamesRoot();
+
+            // Strip any DCS suffix from the root so templates work correctly
+            if (savedGamesRoot.EndsWith("\\DCS.openbeta", StringComparison.OrdinalIgnoreCase))
+                savedGamesRoot = savedGamesRoot[..^"\\DCS.openbeta".Length];
+            else if (savedGamesRoot.EndsWith("\\DCS", StringComparison.OrdinalIgnoreCase))
+                savedGamesRoot = savedGamesRoot[..^"\\DCS".Length];
+
             return path.PathTemplate
-                .Replace("{SavedGamesStable}",   Path.Combine(savedGames, "DCS"))
-                .Replace("{SavedGamesOpenBeta}", Path.Combine(savedGames, "DCS.openbeta"));
+                .Replace("{SavedGamesStable}",   Path.Combine(savedGamesRoot, "DCS"))
+                .Replace("{SavedGamesOpenBeta}", Path.Combine(savedGamesRoot, "DCS.openbeta"));
         }
 
         return null;
