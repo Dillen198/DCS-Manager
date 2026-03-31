@@ -19,6 +19,7 @@ public partial class MainWindowViewModel : ObservableObject
     private readonly IDcsInstallDetector _dcsDetector;
     private readonly IDcsProcessMonitor _dcsMonitor;
     private readonly IPluginStateStore _stateStore;
+    private readonly IDcsVersionChecker _dcsVersionChecker;
     private readonly ILogger<MainWindowViewModel> _logger;
 
     [ObservableProperty]
@@ -60,6 +61,9 @@ public partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private DcsInstall? _selectedDcsInstall;
 
+    [ObservableProperty]
+    private ObservableCollection<DcsVersionStatus> _dcsVersionStatuses = new();
+
     public ObservableCollection<string> Categories { get; } = new() { "All", "Communication", "Mission Planning", "Aircraft Mod", "Analysis", "Assets", "Hardware" };
 
     public ObservableCollection<PluginViewModel> FilteredPlugins => new(
@@ -75,6 +79,7 @@ public partial class MainWindowViewModel : ObservableObject
         IDcsInstallDetector dcsDetector,
         IDcsProcessMonitor dcsMonitor,
         IPluginStateStore stateStore,
+        IDcsVersionChecker dcsVersionChecker,
         ILogger<MainWindowViewModel> logger)
     {
         _catalog = catalog;
@@ -82,6 +87,7 @@ public partial class MainWindowViewModel : ObservableObject
         _dcsDetector = dcsDetector;
         _dcsMonitor = dcsMonitor;
         _stateStore = stateStore;
+        _dcsVersionChecker = dcsVersionChecker;
         _logger = logger;
 
         orchestrator.StateChanged += OnOrchestratorStateChanged;
@@ -101,6 +107,7 @@ public partial class MainWindowViewModel : ObservableObject
         await LoadPluginsAsync();
         LoadHistory();
         LoadSettings();
+        _ = RefreshDcsVersionsAsync();
     }
 
     private async Task LoadPluginsAsync()
@@ -175,6 +182,25 @@ public partial class MainWindowViewModel : ObservableObject
     {
         await _orchestrator.CheckNowAsync();
         await LoadPluginsAsync();
+        await RefreshDcsVersionsAsync();
+    }
+
+    private async Task RefreshDcsVersionsAsync()
+    {
+        try
+        {
+            var statuses = await _dcsVersionChecker.CheckAllAsync(DcsInstalls);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                DcsVersionStatuses.Clear();
+                foreach (var s in statuses)
+                    DcsVersionStatuses.Add(s);
+            });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "DCS version check failed");
+        }
     }
 
     [RelayCommand]

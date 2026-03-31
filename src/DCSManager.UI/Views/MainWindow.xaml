@@ -750,7 +750,7 @@
 
                     <!-- DCS Installations -->
                     <TextBlock Text="DCS INSTALLATIONS" Style="{StaticResource SectionHeader}"/>
-                    <ItemsControl ItemsSource="{Binding DcsInstalls}" Margin="0,0,0,24">
+                    <ItemsControl ItemsSource="{Binding DcsVersionStatuses}" Margin="0,0,0,24">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Border Style="{StaticResource Card}">
@@ -758,30 +758,108 @@
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
                                         </Grid.ColumnDefinitions>
-                                        <!-- Colored dot -->
-                                        <Border Grid.Column="0" Width="36" Height="36"
-                                                Background="#1A89B4FA" CornerRadius="8"
-                                                Margin="0,0,14,0">
-                                            <TextBlock Text="✈" FontSize="16"
-                                                       Foreground="{StaticResource Blue}"
-                                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+                                        <!-- Icon -->
+                                        <Border Grid.Column="0" Width="38" Height="38"
+                                                CornerRadius="8" Margin="0,0,14,0">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="Background" Value="#1A89B4FA"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding HasUpdate}" Value="True">
+                                                            <Setter Property="Background" Value="#1AF9E2AF"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Setter Property="Text"       Value="✈"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource Blue}"/>
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding HasUpdate}" Value="True">
+                                                                <Setter Property="Text"       Value="⬆"/>
+                                                                <Setter Property="Foreground" Value="{StaticResource Yellow}"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
                                         </Border>
+
+                                        <!-- Info -->
                                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Label}" FontSize="14" FontWeight="SemiBold"
+                                            <TextBlock Text="{Binding Install.Label}" FontSize="14" FontWeight="SemiBold"
                                                        Foreground="{StaticResource TextPrimary}"/>
-                                            <TextBlock FontSize="12" Foreground="{StaticResource Subtext}" Margin="0,3,0,0">
-                                                <Run Text="{Binding InstallPath}"/>
-                                            </TextBlock>
-                                            <TextBlock FontSize="12" Foreground="{StaticResource Overlay0}" Margin="0,2,0,0">
-                                                <Run Text="Saved Games: "/>
-                                                <Run Text="{Binding SavedGamesPath}" Foreground="{StaticResource Subtext}"/>
-                                            </TextBlock>
-                                            <TextBlock FontSize="12" Foreground="{StaticResource Overlay0}" Margin="0,2,0,0">
-                                                <Run Text="Version: "/>
-                                                <Run Text="{Binding Version}" Foreground="{StaticResource Subtext}"/>
-                                            </TextBlock>
+                                            <TextBlock Text="{Binding Install.InstallPath}" FontSize="12"
+                                                       Foreground="{StaticResource Subtext}" Margin="0,3,0,0"/>
+                                            <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                <!-- Installed version -->
+                                                <Border Background="{StaticResource Surface1}" CornerRadius="4" Padding="7,2">
+                                                    <TextBlock FontSize="11" Foreground="{StaticResource Subtext}">
+                                                        <Run Text="Installed: "/>
+                                                        <Run Text="{Binding InstalledVersion, FallbackValue='Unknown'}"/>
+                                                    </TextBlock>
+                                                </Border>
+                                                <!-- Latest version (when known) -->
+                                                <Border Margin="6,0,0,0" CornerRadius="4" Padding="7,2">
+                                                    <Border.Style>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="Background" Value="#1EA6E3A1"/>
+                                                            <Style.Triggers>
+                                                                <DataTrigger Binding="{Binding HasUpdate}" Value="True">
+                                                                    <Setter Property="Background" Value="#1EF9E2AF"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding CheckFailed}" Value="True">
+                                                                    <Setter Property="Background" Value="#15FFFFFF"/>
+                                                                </DataTrigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Border.Style>
+                                                    <TextBlock FontSize="11">
+                                                        <TextBlock.Style>
+                                                            <Style TargetType="TextBlock">
+                                                                <Setter Property="Foreground" Value="{StaticResource Green}"/>
+                                                            </Style>
+                                                        </TextBlock.Style>
+                                                        <Run Text="Latest: "/>
+                                                        <Run>
+                                                            <Run.Style>
+                                                                <Style TargetType="Run">
+                                                                    <Setter Property="Text" Value="{Binding LatestVersion, FallbackValue='–'}"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding CheckFailed}" Value="True">
+                                                                            <Setter Property="Text" Value="Check failed"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding HasUpdate}" Value="True">
+                                                                            <Setter Property="Foreground" Value="{StaticResource Yellow}"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Run.Style>
+                                                        </Run>
+                                                    </TextBlock>
+                                                </Border>
+                                                <!-- Branch badge -->
+                                                <Border Margin="6,0,0,0" Background="#15CBA6F7"
+                                                        CornerRadius="4" Padding="7,2">
+                                                    <TextBlock Text="{Binding Branch, FallbackValue='stable'}"
+                                                               FontSize="11" Foreground="{StaticResource Mauve}"/>
+                                                </Border>
+                                            </StackPanel>
                                         </StackPanel>
+
+                                        <!-- Update available badge -->
+                                        <Border Grid.Column="2" CornerRadius="6" Padding="10,5"
+                                                VerticalAlignment="Center" Margin="12,0,0,0"
+                                                Background="{StaticResource Yellow}"
+                                                Visibility="{Binding HasUpdate, Converter={StaticResource BoolToVisibility}}">
+                                            <TextBlock Text="UPDATE AVAILABLE" FontSize="10" FontWeight="Bold"
+                                                       Foreground="{StaticResource Crust}"/>
+                                        </Border>
                                     </Grid>
                                 </Border>
                             </DataTemplate>

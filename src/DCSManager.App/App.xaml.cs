@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using DCSManager.Core.Interfaces;
+using DCSManager.Core.Models;
 using DCSManager.Services;
 using DCSManager.UI.ViewModels;
 using DCSManager.UI.Views;
@@ -65,8 +66,14 @@ public partial class App : Application
         {
             c.Timeout = TimeSpan.FromMinutes(30);
         });
+        services.AddHttpClient("dcs-rss", c =>
+        {
+            c.DefaultRequestHeaders.Add("User-Agent", "DCSManager/1.0");
+            c.Timeout = TimeSpan.FromSeconds(20);
+        });
 
         services.AddSingleton<ICatalogService, CatalogService>();
+        services.AddSingleton<IDcsVersionChecker, DcsVersionChecker>();
         services.AddSingleton<IPluginStateStore, JsonPluginStateStore>();
         services.AddSingleton<IDcsInstallDetector, DcsInstallDetector>();
         services.AddSingleton<IDcsProcessMonitor, DcsProcessMonitor>();
